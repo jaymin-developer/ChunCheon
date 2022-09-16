@@ -39,6 +39,16 @@ const Home: NextPage = () => {
       <Head>
         <title>꽃보다 청춘, 콛보다 춘천</title>
         <meta name="description" content="Let's Go ChunCheon" />
+        <meta property="og:url" content="https://chun-cheon.vercel.app/"></meta>
+        <meta property="og:title" content="꽃보다 청춘, 콛보다 춘천"></meta>
+        <meta
+          property="og:description"
+          content="10월 1~2일 춘천 갈 사람 모집중"
+        ></meta>
+        <meta
+          property="og:image"
+          content="https://chun-cheon.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fchuncheon.50ab303f.png&w=3840&q=75"
+        ></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="flex flex-col w-screen items-center ">
