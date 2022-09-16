@@ -27,6 +27,7 @@ const Home: NextPage = () => {
         "Content-Type": "application/json",
       },
     }).then(fetchUsers);
+    alert("신청이 완료됐습니다.");
   };
 
   useEffect(() => {
@@ -48,9 +49,11 @@ const Home: NextPage = () => {
           <div className="flex flex-col justify-center lg:w-1/3 p-16 gap-3">
             <div className="flex flex-col items-center gap-2">
               <div className="font-bold text-xl">참여자 명단</div>
-              <div className="flex flex-wrap gap-1 ">
-                {users?.map((user) => (
-                  <div key={user.id}>{user.name}</div>
+              <div className="flex flex-col items-center flex-wrap gap-1 ">
+                {users?.map((user, idx) => (
+                  <div key={user.id}>
+                    {idx + 1}등 {user.name}
+                  </div>
                 ))}
               </div>
             </div>
