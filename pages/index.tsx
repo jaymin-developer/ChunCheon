@@ -26,8 +26,7 @@ const Home: NextPage = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    });
-    fetchUsers();
+    }).then(fetchUsers);
   };
 
   useEffect(() => {
