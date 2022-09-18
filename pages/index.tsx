@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -14,9 +15,8 @@ const Home: NextPage = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   const fetchUsers = async () => {
-    const res = await fetch("/api/users");
-    const data = await res.json();
-    setUsers(data.users);
+    const res = await axios.get("/api/users");
+    setUsers(res.data.users);
   };
 
   const submitReg = async () => {
