@@ -11,8 +11,24 @@ interface User {
 }
 
 const Home: NextPage = () => {
+  
+  const dDay = new Date("2022-10-01 00:00:00 GMT+0900");
+  const now = new Date();
+  
+  const diff = dDay.getTime() - now.getTime();
+  
   const [name, setName] = useState("");
   const [users, setUsers] = useState<User[]>([]);
+  
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  const [day, setDay] = useState(d);
+  const [hour, setHour] = useState(h);
+  const [minutes, setMinutes] = useState(m);
+  const [seconds, setSeconds] = useState(s);
 
   const fetchUsers = async () => {
     const res = await axios.get("/api/users");
@@ -34,6 +50,35 @@ const Home: NextPage = () => {
     fetchUsers();
   }, []);
 
+  useEffect(() => {
+    const countdown = setInterval(() => {
+      if (seconds > 0) setSeconds(seconds - 1);
+
+      if (seconds === 0) {
+        if (minutes === 0) {
+          if (hour === 0) {
+            if (day === 0) {
+              clearTimeout(countdown);
+            } else {
+              setDay(day - 1);
+              setHour(23);
+              setMinutes(59);
+              setSeconds(59);
+            }
+          } else {
+            setHour(hour - 1);
+            setMinutes(59);
+            setSeconds(59);
+          }
+        } else {
+          setMinutes(minutes - 1);
+          setSeconds(59);
+        }
+      }
+    }, 1000);
+    return () => clearInterval(countdown);
+  }, [day, hour, minutes, seconds]);
+
   return (
     <>
       <Head>
@@ -52,11 +97,38 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="flex flex-col w-screen items-center ">
-        <div className="w-screen h-screen flex flex-col lg:flex-row items-center lg:justify-center rounded-full relative">
-          <div className="lg:p-5">
+        <div className="w-screen h-screen flex flex-col xl:flex-row items-center lg:justify-center rounded-full relative">
+          <div>
             <Image src={ChunCheon} alt="썸네일" className="rounded-lg" />
           </div>
-          <div className="flex flex-col justify-center lg:w-1/3 p-16 gap-3">
+
+          <div className="flex flex-col justify-center lg:w-2/5 p-8 gap-3">
+            <div>
+              <div className="flex justify-center text-lg gap-2 bg-black text-yellow-500 p-2 rounded-t-lg">
+                춘천 출발까지
+              </div>
+              <div className="flex justify-center text-lg gap-2 bg-black text-yellow-500 p-3 rounded-b-lg">
+                <p>
+                  <em className="text-3xl">{String(day).padStart(2, "0")}</em>일
+                </p>
+                <p>
+                  <em className="text-3xl">{String(hour).padStart(2, "0")}</em>
+                  시
+                </p>
+                <p>
+                  <em className="text-3xl">
+                    {String(minutes).padStart(2, "0")}
+                  </em>
+                  분
+                </p>
+                <p>
+                  <em className="text-3xl">
+                    {String(seconds).padStart(2, "0")}
+                  </em>
+                  초
+                </p>
+              </div>
+            </div>
             <div className="flex flex-col items-center gap-2">
               <div className="font-bold text-xl">참여자 명단</div>
               <div className="flex flex-col items-center flex-wrap gap-1 ">
